@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "87089603888",
+    "project_id": "cooler1474",
+    "storage_bucket": "cooler1474.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:87089603888:android:b49276302ed9780068d4f5",
+        "android_client_info": {
+          "package_name": "com.example.cooler"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "87089603888-dp208o3a6fs6fd4udaigpanuic92h2e0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxIsOU0rIazf5-B-gTBbJpG0mXSsgL4F8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "87089603888-dp208o3a6fs6fd4udaigpanuic92h2e0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,6 @@
+this code from esp32 and esp32 width SIM800l
+
+for use esp32, you need add https://dl.espressif.com/dl/package_esp32_index.json in Arduino setting. File->Settings->additional links for Board Manager.
+After adding you need Tools->board->board manager search and download esp32.
+
+For this project used ESP32 Dev Module
