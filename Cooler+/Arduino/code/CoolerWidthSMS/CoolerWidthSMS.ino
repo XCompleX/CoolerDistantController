@@ -27,6 +27,9 @@ float weight_grMIN = 0;
 /***************ButtonCallibation*************/
 bool firstCalibr = false;
 bool secondCalibr = false;
+volatile long paused   = 50;
+volatile long lastTurn = 0;
+volatile int count = 0;
 
 void setup() {    
   pinMode(ButtonCalibration, INPUT);
@@ -37,14 +40,14 @@ void setup() {
   _response = sendATCommand("AT", true);
   Serial.println(_response);
   scale.begin(DOUT,CLK);
+  attachInterrupt(digitalPinToInterrupt(ButtonCalibration), buttonManager, CHANGE);
 
   while(!firstCalibr){
-    firstCalibr = digitalRead(ButtonCalibration);
     Serial.println("Нажмите кнопку 1-й раз");
     digitalWrite(LED, HIGH);
-    delay(500);
+    delay(100);
     digitalWrite(LED, LOW);
-    delay(500); 
+    delay(100); 
   }
   
   scale.set_scale();
@@ -54,34 +57,19 @@ void setup() {
   weight_grMIN = scale.get_units(10) * 0.035274;
   Serial.println(weight_grMIN);
   
-  while(firstCalibr){
-    firstCalibr = digitalRead(ButtonCalibration);
-    Serial.println("Отпустите кнопку");
-    digitalWrite(LED, HIGH);
-    delay(100);
-  }
-  
   digitalWrite(LED, LOW);
-  delay(15000);
+  delay(10000);
   
   while(!secondCalibr){
-    secondCalibr = digitalRead(ButtonCalibration);
     Serial.println("Нажмите кнопку 2-й раз");
     digitalWrite(LED, HIGH);
-    delay(500);
+    delay(100);
     digitalWrite(LED, LOW);
-    delay(500); 
+    delay(100); 
   }
   
   weight_grMAX = scale.get_units(10) * 0.035274;
   Serial.println(weight_grMAX);
-  
-  while(secondCalibr){
-    secondCalibr = digitalRead(ButtonCalibration);
-    Serial.println("Отпустите кнопку");
-    digitalWrite(LED, HIGH);
-    delay(100);
-  }
   digitalWrite(LED, LOW);
 }
 void loop() {  
@@ -119,6 +107,18 @@ void sendSqlData(HTTPClient &http){
       Serial.print(payload); 
     }
     http.end();
+}
+void buttonManager(){
+    if (millis() - lastTurn < paused) return;
+    cli();
+    count++;
+    if(count == 2){
+      if(!firstCalibr) firstCalibr = true;
+      else if(!secondCalibr) secondCalibr = true;
+      count = 0;
+    }
+    sei(); 
+    lastTurn = millis();
 }
 void SendPushNotice(){
   if (percent <= 25 && PushNotification25){
