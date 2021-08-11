@@ -108,8 +108,9 @@ void readData(){
   else if (percent > 100) percent = 100;
 }
 void sendSqlData(HTTPClient &http){
-    http.begin("YourSite/set_service.php?ID=" + String(coolerID) + "&Value=" + String(percent));
-    int httpCode = http.GET();
+    http.begin("YourSite/set_service.php");
+    http.addHeader("Content-Type", "application/x-www-form-urlencoded", false, true);
+    int httpCode = http.POST("ID=" + String(coolerID) + "&Value=" + String(percent));
 
     if(httpCode > 0){
       String payload = http.getString();
